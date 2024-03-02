@@ -1,0 +1,22 @@
+version: '3'
+services:
+  broker:
+    cap_add:
+      - NET_ADMIN
+    env_file:
+      - base.env
+    environment:
+      - ICE_ROLES=server:tcp:1883
+    image: icemicro/examples-mqtt-broker:latest
+    ports:
+      - 1883:1883
+  client:
+    cap_add:
+      - NET_ADMIN
+    depends_on:
+      - broker
+    env_file:
+      - base.env
+    environment:
+      - ICE_ROLES=client:tcp:1883
+    image: icemicro/examples-mqtt-client:latest

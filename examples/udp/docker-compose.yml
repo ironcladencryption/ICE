@@ -1,0 +1,22 @@
+version: '3'
+services:
+  client:
+    cap_add:
+      - NET_ADMIN
+    depends_on:
+      - server
+    env_file:
+      - base.env
+    environment:
+      - ICE_ROLES=client:udp:50837
+    image: ice/examples-udp-client:latest
+  server:
+    cap_add:
+      - NET_ADMIN
+    env_file:
+      - base.env
+    environment:
+      - ICE_ROLES=server:udp:50837
+    image: ice/examples-udp-server:latest
+    ports:
+      - 50837:50837

@@ -1,0 +1,30 @@
+version: '3'
+services:
+  client:
+    cap_add:
+      - NET_ADMIN
+    depends_on:
+      - proxy
+    env_file:
+      - base.env
+    environment:
+      - ICE_ROLES=client:tcp:5555
+    image: ice/examples-tunnel-client:latest
+  server:
+    env_file:
+      - base.env
+    image: ice/examples-tunnel-server:latest
+    ports:
+      - 5556:5556
+  proxy:
+    cap_add:
+      - NET_ADMIN
+    depends_on:
+      - server
+    env_file:
+      - base.env
+    environment:
+      - ICE_ROLES=server:tcp:5555
+    image: ice/examples-tunnel-proxy:latest
+    ports:
+      - 5555:5555
